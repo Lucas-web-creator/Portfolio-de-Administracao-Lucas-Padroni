@@ -41,11 +41,11 @@
 
 <body>
 
-<!-- ============================================================
-     INTRO — PÁGINA INICIAL
-============================================================ -->
 
-<div class="intro" id="intro" data-title="LUCAS PADRONI">
+<!-- ============================================================
+     INTRO — ANIMAÇÃO DE ENTRADA
+============================================================ -->
+<div class="intro" id="intro">
 
     <div class="intro__background"></div>
 
@@ -57,13 +57,19 @@
 
     <div class="intro__content">
 
-        <div class="intro__line"></div>
+        <div class="intro__typing">
 
-        <h1 class="intro__title">
-            LUCAS PADRONI
-        </h1>
+            <span
+                class="intro__text"
+                id="introText"
+            ></span>
 
-        <div class="intro__line"></div>
+            <span
+                class="intro__cursor"
+                id="introCursor"
+            ></span>
+
+        </div>
 
     </div>
 
@@ -1839,25 +1845,160 @@
     ========================================================== -->
 
     <script>
-        /* ============================================================
-           INTRO — ANIMAÇÃO DE ENTRADA
-        ============================================================ */
 
-        document.addEventListener("DOMContentLoaded", () => {
+    /* ============================================================
+       INTRO — ANIMAÇÃO DE ENTRADA
+    ============================================================ */
 
-            const intro = document.getElementById("intro");
+    document.addEventListener(
+        "DOMContentLoaded",
+        () => {
 
-            if (!intro) {
+            const intro =
+                document.getElementById("intro");
+
+            const textElement =
+                document.getElementById("introText");
+
+            const cursor =
+                document.getElementById("introCursor");
+
+
+            if (
+                !intro ||
+                !textElement ||
+                !cursor
+            ) {
+
                 return;
+
             }
 
-            setTimeout(() => {
 
-                intro.remove();
+            /* ====================================================
+               CONFIGURAÇÕES
+            ==================================================== */
 
-            }, 1000);
+            const text = "ADMINISTRAÇÃO";
 
-        });
+            const startDelay = 450;
+
+            const typingSpeed = 90;
+
+            const finalPause = 650;
+
+            const exitDuration = 650;
+
+
+            let index = 0;
+
+            let typingInterval = null;
+
+
+            /* ====================================================
+               ATIVAÇÃO
+            ==================================================== */
+
+            textElement.classList.add(
+                "is-active"
+            );
+
+            cursor.classList.add(
+                "is-active"
+            );
+
+
+            /* ====================================================
+               DIGITAÇÃO
+            ==================================================== */
+
+            function startTyping() {
+
+                typingInterval =
+                    setInterval(() => {
+
+                        textElement.textContent +=
+                            text[index];
+
+                        index++;
+
+
+                        if (
+                            index >= text.length
+                        ) {
+
+                            clearInterval(
+                                typingInterval
+                            );
+
+                            typingInterval = null;
+
+                            finishTyping();
+
+                        }
+
+                    }, typingSpeed);
+
+            }
+
+
+            /* ====================================================
+               FINAL DA DIGITAÇÃO
+            ==================================================== */
+
+            function finishTyping() {
+
+                setTimeout(() => {
+
+                    cursor.classList.remove(
+                        "is-active"
+                    );
+
+                    startExit();
+
+                }, finalPause);
+
+            }
+
+
+            /* ====================================================
+               SAÍDA
+            ==================================================== */
+
+            function startExit() {
+
+                intro.classList.add(
+                    "is-exiting"
+                );
+
+                setTimeout(() => {
+
+                    if (
+                        intro &&
+                        intro.parentNode
+                    ) {
+
+                        intro.remove();
+
+                    }
+
+                }, exitDuration);
+
+            }
+
+
+            /* ====================================================
+               INÍCIO
+            ==================================================== */
+
+            setTimeout(
+                startTyping,
+                startDelay
+            );
+
+        }
+    );
+
     </script>
 
 </body>

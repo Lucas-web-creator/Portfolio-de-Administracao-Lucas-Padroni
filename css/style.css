@@ -62,6 +62,7 @@
     z-index: 9999;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -74,7 +75,12 @@
 
     pointer-events: none;
 
-    animation: introExit 320ms ease-in 620ms forwards;
+    opacity: 1;
+
+    transform: translateZ(0);
+
+    contain: strict;
+
 }
 
 
@@ -90,18 +96,18 @@
 
     background:
         radial-gradient(
-            circle at 18% 25%,
+            circle at 18% 24%,
             rgba(20, 149, 255, 0.24),
             transparent 30%
         ),
         radial-gradient(
             circle at 82% 20%,
-            rgba(0, 102, 255, 0.20),
+            rgba(0, 102, 255, 0.18),
             transparent 32%
         ),
         radial-gradient(
-            circle at 75% 82%,
-            rgba(25, 72, 160, 0.26),
+            circle at 76% 82%,
+            rgba(25, 72, 160, 0.22),
             transparent 34%
         ),
         linear-gradient(
@@ -112,68 +118,121 @@
             #030d20 100%
         );
 
-    transform: scale(1.08);
+    opacity: 0;
 
-    animation: introBackground 900ms ease-out forwards;
+    transform:
+        translateZ(0)
+        scale(1.04);
+
+    will-change:
+        opacity,
+        transform;
+
+    animation:
+        introBackground
+        850ms
+        ease-out
+        forwards;
+
 }
 
 
 /* ============================================================
-   LUZES
+   GLOWS
 ============================================================ */
 
 .intro__glow {
 
     position: absolute;
 
-    width: 320px;
-    height: 320px;
+    width: 220px;
+    height: 220px;
 
     border-radius: 50%;
 
-    filter: blur(70px);
-
     opacity: 0;
 
-    animation: introGlow 850ms ease-out forwards;
+    transform: translateZ(0);
+
+    will-change:
+        opacity,
+        transform;
+
+    pointer-events: none;
+
 }
 
 
 .intro__glow--one {
 
-    top: -120px;
-    left: -80px;
+    top: -90px;
+    left: -70px;
 
-    background: rgba(20, 149, 255, 0.38);
+    background:
+        radial-gradient(
+            circle,
+            rgba(20, 149, 255, 0.32),
+            transparent 68%
+        );
 
-    animation-delay: 40ms;
+    animation:
+        introGlowOne
+        900ms
+        ease-out
+        60ms
+        forwards;
+
 }
 
 
 .intro__glow--two {
 
-    right: -100px;
-    bottom: -120px;
+    right: -80px;
+    bottom: -90px;
 
-    background: rgba(0, 91, 255, 0.34);
+    background:
+        radial-gradient(
+            circle,
+            rgba(0, 91, 255, 0.28),
+            transparent 68%
+        );
 
-    animation-delay: 100ms;
+    animation:
+        introGlowTwo
+        900ms
+        ease-out
+        100ms
+        forwards;
+
 }
 
 
 .intro__glow--three {
 
-    top: 45%;
+    top: 50%;
     left: 50%;
 
-    width: 240px;
-    height: 240px;
+    width: 180px;
+    height: 180px;
 
-    background: rgba(41, 112, 255, 0.18);
+    background:
+        radial-gradient(
+            circle,
+            rgba(41, 112, 255, 0.16),
+            transparent 68%
+        );
 
-    transform: translate(-50%, -50%);
+    transform:
+        translate(-50%, -50%)
+        scale(0.8);
 
-    animation-delay: 160ms;
+    animation:
+        introGlowThree
+        900ms
+        ease-out
+        140ms
+        forwards;
+
 }
 
 
@@ -192,195 +251,305 @@
     align-items: center;
     justify-content: center;
 
-    gap: 28px;
+    width: 100%;
 
-    opacity: 0;
+    transform: translateZ(0);
 
-    transform: translateY(12px) scale(0.96);
-
-    animation:
-        introContent
-        520ms
-        cubic-bezier(0.22, 1, 0.36, 1)
-        120ms
-        forwards;
 }
 
 
 /* ============================================================
-   TÍTULO
+   DIGITAÇÃO
 ============================================================ */
 
-.intro__title {
+.intro__typing {
 
-    margin: 0;
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 70px;
+
+    padding: 0 20px;
+
+}
+
+
+/* ============================================================
+   TEXTO
+============================================================ */
+
+.intro__text {
+
+    display: inline-block;
 
     color: #ffffff;
 
-    font-family: "Inter", sans-serif;
+    font-family:
+        "Inter",
+        Arial,
+        sans-serif;
 
-    font-size: clamp(2rem, 5vw, 4rem);
+    font-size:
+        clamp(
+            2rem,
+            5vw,
+            4rem
+        );
 
     font-weight: 700;
 
     line-height: 1;
 
-    letter-spacing: 0.18em;
+    letter-spacing: 0.12em;
 
     text-align: center;
 
-    text-shadow:
-        0 0 8px rgba(255, 255, 255, 0.75),
-        0 0 18px rgba(255, 210, 31, 0.65),
-        0 0 36px rgba(255, 210, 31, 0.35);
+    white-space: nowrap;
 
-    animation:
-        introTitleGlow
-        700ms
-        ease-out
-        120ms
-        forwards;
+    opacity: 0;
+
+    transform:
+        translateY(5px)
+        translateZ(0);
+
+    will-change:
+        opacity,
+        transform;
+
+    text-shadow:
+        0 0 5px
+        rgba(255, 255, 255, 0.85),
+
+        0 0 12px
+        rgba(255, 210, 31, 0.55),
+
+        0 0 25px
+        rgba(255, 210, 31, 0.25);
+
+    transition:
+        opacity 300ms ease,
+        transform 300ms ease;
+
+}
+
+
+.intro__text.is-active {
+
+    opacity: 1;
+
+    transform:
+        translateY(0)
+        translateZ(0);
+
 }
 
 
 /* ============================================================
-   LINHAS NEON
+   CURSOR
 ============================================================ */
 
-.intro__line {
+.intro__cursor {
 
-    width: 80px;
-    height: 2px;
+    width: 2px;
 
-    flex-shrink: 0;
+    height: 0.95em;
+
+    margin-left: 7px;
 
     background: #ffd21f;
 
-    box-shadow:
-        0 0 5px rgba(255, 210, 31, 0.95),
-        0 0 12px rgba(255, 210, 31, 0.75),
-        0 0 24px rgba(255, 210, 31, 0.45);
+    border-radius: 1px;
 
-    transform: scaleX(0);
+    opacity: 0;
+
+    box-shadow:
+        0 0 5px
+        rgba(255, 210, 31, 0.8);
+
+}
+
+
+.intro__cursor.is-active {
+
+    opacity: 1;
 
     animation:
-        introLine
-        500ms
-        cubic-bezier(0.22, 1, 0.36, 1)
-        180ms
-        forwards;
+        introCursor
+        700ms
+        steps(1)
+        infinite;
+
 }
 
 
 /* ============================================================
-   ANIMAÇÕES
+   SAÍDA
+============================================================ */
+
+.intro.is-exiting {
+
+    animation:
+        introExit
+        650ms
+        cubic-bezier(
+            0.76,
+            0,
+            0.24,
+            1
+        )
+        forwards;
+
+}
+
+
+/* ============================================================
+   FUNDO
 ============================================================ */
 
 @keyframes introBackground {
 
-    0% {
+    from {
 
         opacity: 0;
 
-        transform: scale(1.15);
+        transform:
+            translateZ(0)
+            scale(1.04);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateZ(0)
+            scale(1);
+
+    }
+
+}
+
+
+/* ============================================================
+   GLOW 1
+============================================================ */
+
+@keyframes introGlowOne {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translate3d(0, 0, 0)
+            scale(0.75);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translate3d(0, 0, 0)
+            scale(1);
+
+    }
+
+}
+
+
+/* ============================================================
+   GLOW 2
+============================================================ */
+
+@keyframes introGlowTwo {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translate3d(0, 0, 0)
+            scale(0.75);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translate3d(0, 0, 0)
+            scale(1);
+
+    }
+
+}
+
+
+/* ============================================================
+   GLOW 3
+============================================================ */
+
+@keyframes introGlowThree {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translate(-50%, -50%)
+            scale(0.65);
+
+    }
+
+    to {
+
+        opacity: 0.9;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+
+    }
+
+}
+
+
+/* ============================================================
+   CURSOR
+============================================================ */
+
+@keyframes introCursor {
+
+    0% {
+
+        opacity: 1;
+
+    }
+
+    50% {
+
+        opacity: 0;
+
     }
 
     100% {
 
         opacity: 1;
 
-        transform: scale(1);
     }
+
 }
 
 
-@keyframes introGlow {
-
-    0% {
-
-        opacity: 0;
-
-        transform: scale(0.75);
-    }
-
-    45% {
-
-        opacity: 1;
-
-        transform: scale(1);
-    }
-
-    100% {
-
-        opacity: 0.75;
-
-        transform: scale(1.05);
-    }
-}
-
-
-@keyframes introContent {
-
-    0% {
-
-        opacity: 0;
-
-        transform: translateY(12px) scale(0.96);
-    }
-
-    100% {
-
-        opacity: 1;
-
-        transform: translateY(0) scale(1);
-    }
-}
-
-
-@keyframes introTitleGlow {
-
-    0% {
-
-        text-shadow:
-            0 0 0 rgba(255, 255, 255, 0),
-            0 0 0 rgba(255, 210, 31, 0);
-    }
-
-    45% {
-
-        text-shadow:
-            0 0 10px rgba(255, 255, 255, 0.95),
-            0 0 24px rgba(255, 210, 31, 0.9),
-            0 0 48px rgba(255, 210, 31, 0.55);
-    }
-
-    100% {
-
-        text-shadow:
-            0 0 8px rgba(255, 255, 255, 0.75),
-            0 0 18px rgba(255, 210, 31, 0.65),
-            0 0 36px rgba(255, 210, 31, 0.35);
-    }
-}
-
-
-@keyframes introLine {
-
-    0% {
-
-        transform: scaleX(0);
-
-        opacity: 0;
-    }
-
-    100% {
-
-        transform: scaleX(1);
-
-        opacity: 1;
-    }
-}
-
+/* ============================================================
+   SAÍDA — LEVE
+============================================================ */
 
 @keyframes introExit {
 
@@ -388,15 +557,32 @@
 
         opacity: 1;
 
-        transform: scale(1);
+        transform:
+            translate3d(0, 0, 0)
+            scale(1);
+
+    }
+
+    55% {
+
+        opacity: 0.72;
+
+        transform:
+            translate3d(0, -4px, 0)
+            scale(1.012);
+
     }
 
     100% {
 
         opacity: 0;
 
-        transform: scale(1.025);
+        transform:
+            translate3d(0, -10px, 0)
+            scale(1.025);
+
     }
+
 }
 
 
@@ -406,22 +592,46 @@
 
 @media (max-width: 600px) {
 
-    .intro__content {
+    .intro__typing {
 
-        gap: 16px;
+        min-height: 56px;
+
+        padding: 0 12px;
+
     }
 
-    .intro__line {
 
-        width: 40px;
+    .intro__text {
+
+        font-size: 1.7rem;
+
+        letter-spacing: 0.08em;
+
     }
 
-    .intro__title {
 
-        font-size: 1.65rem;
+    .intro__cursor {
 
-        letter-spacing: 0.12em;
+        margin-left: 5px;
+
     }
+
+
+    .intro__glow {
+
+        width: 170px;
+        height: 170px;
+
+    }
+
+
+    .intro__glow--three {
+
+        width: 140px;
+        height: 140px;
+
+    }
+
 }
 
 
@@ -434,7 +644,9 @@
     .intro {
 
         display: none;
+
     }
+
 }
 
 /* ============================================================
@@ -4245,6 +4457,7 @@ span {
                 5.2rem
             );
     }
+
 
     .education-grid {
         grid-template-columns:
